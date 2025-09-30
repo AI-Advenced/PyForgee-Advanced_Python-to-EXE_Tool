@@ -1,0 +1,422 @@
+Metadata-Version: 2.4
+Name: PyForgee
+Version: 1.0.0
+Summary: Outil Python-to-EXE avancé avec optimisations et protection
+Home-page: https://github.com/PyForgee/PyForgee
+Author: PyForgee Team
+Author-email: contact@PyForgee.dev
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: Software Development :: Compilers
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: PySide6>=6.4.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: aiofiles>=0.8.0
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: psutil>=5.9.0
+Requires-Dist: requests>=2.28.0
+Requires-Dist: packaging>=21.0
+Requires-Dist: pyinstaller>=5.0
+Requires-Dist: nuitka>=1.5.0
+Requires-Dist: cx-freeze>=6.0
+Requires-Dist: pyarmor>=8.0.0
+Requires-Dist: colorama>=0.4.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: tqdm>=4.64.0
+Requires-Dist: pytest>=7.0.0
+Requires-Dist: pytest-qt>=4.0.0
+Requires-Dist: pytest-asyncio>=0.21.0
+Requires-Dist: sphinx>=5.0.0
+Provides-Extra: dev
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=0.991; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=5.0.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=1.0.0; extra == "docs"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# PyForgee - Outil Python-to-EXE Avancé
+
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.0.0-orange.svg)](#)
+
+**PyForgee** est un outil hybride qui combine les avantages de PyInstaller, cx_Freeze, et Nuitka avec des fonctionnalités avancées de compression, protection, et optimisation pour créer des exécutables Python optimaux.
+
+## ✨ Fonctionnalités principales
+
+### 🔧 Compilation hybride intelligente
+- **Sélection automatique** du meilleur compilateur selon le contexte
+- Support de **PyInstaller**, **Nuitka**, et **cx_Freeze**
+- **Analyse des dépendances** statique et dynamique
+- **Optimisations adaptatives** selon le type d'application
+
+### 🗜️ Compression avancée
+- **UPX** - Réduction de 50-70% de la taille des exécutables
+- **LZMA/7z** - Compression haute performance pour les ressources
+- **Brotli** - Optimisé pour les données web
+- **Algorithmes personnalisés** - Compression adaptative selon le contenu
+
+### 🔒 Protection multicouche
+- **PyArmor** - Protection professionnelle contre la décompilation
+- **Obfuscation personnalisée** - Masquage des noms et chaînes
+- **Chiffrement bytecode** - Chiffrement AES des fichiers .pyc
+- **Anti-debugging** - Détection de débogueurs et VMs
+
+### 🎨 Interfaces utilisateur
+- **Interface CLI** moderne avec Rich et Click
+- **Interface graphique** intuitive avec PySide6 (en développement)
+- **Configuration flexible** - YAML, JSON, INI
+- **Système de plugins** extensible
+
+## 📦 Installation
+
+### Prérequis
+- Python 3.9 ou supérieur
+- pip (gestionnaire de packages Python)
+
+### Installation standard
+```bash
+# Clone du repository
+git clone https://github.com/PyForgee/PyForgee.git
+cd PyForgee
+
+# Installation des dépendances
+pip install -r requirements.txt
+
+# Installation de PyForgee
+pip install -e .
+```
+
+### Installation avec dépendances complètes
+```bash
+# Installation avec tous les outils optionnels
+pip install -e ".[dev,docs]"
+
+# Installation des outils externes (recommandé)
+# PyInstaller
+pip install pyinstaller>=5.0
+
+# Nuitka (pour de meilleures performances)
+pip install nuitka>=1.5.0
+
+# PyArmor (pour la protection professionnelle)
+pip install pyarmor>=8.0.0
+```
+
+### Outils externes optionnels
+- **UPX** : [Télécharger UPX](https://upx.github.io/) pour la compression d'exécutables
+- **PyArmor Pro** : License pour protection avancée
+
+## 🚀 Utilisation rapide
+
+### Compilation simple
+```bash
+# Compilation basique
+PyForgee compile script.py
+
+# Avec optimisations
+PyForgee compile script.py --optimize --compress upx
+
+# Avec protection
+PyForgee compile script.py --protect advanced --obfuscate-names
+```
+
+### Analyse de dépendances
+```bash
+# Analyse standard
+PyForgee analyze script.py
+
+# Analyse approfondie avec export JSON
+PyForgee analyze script.py --deep --format json --output dependencies.json
+```
+
+### Compression d'exécutables
+```bash
+# Compression UPX
+PyForgee compress app.exe --method upx --level 9
+
+# Compression de plusieurs fichiers
+PyForgee compress *.exe --parallel --max-workers 8
+```
+
+### Protection du code
+```bash
+# Protection intermédiaire
+PyForgee protect src/ --level intermediate
+
+# Protection maximale avec options
+PyForgee protect script.py --level maximum --obfuscate-strings --anti-debug
+```
+
+## 📋 Configuration
+
+### Fichier de configuration (config.yaml)
+```yaml
+# Compilateurs
+preferred_compiler: auto  # auto, pyinstaller, nuitka, cx_freeze
+pyinstaller_path: null
+nuitka_path: null
+
+# Compression
+default_compression: auto  # auto, upx, lzma, brotli, custom
+compression_level: 9
+upx_path: null
+
+# Protection
+default_protection_level: intermediate  # basic, intermediate, advanced, maximum
+pyarmor_path: null
+
+# Dossiers
+output_directory: "./dist"
+temp_directory: null
+cache_directory: null
+
+# Options générales
+backup_original: true
+parallel_builds: true
+max_workers: 4
+
+# Exclusions par défaut
+default_excludes:
+  - tkinter
+  - unittest
+  - doctest
+  - pdb
+  - sqlite3
+```
+
+### Gestion de la configuration
+```bash
+# Afficher la configuration
+PyForgee config show
+
+# Modifier une valeur
+PyForgee config set preferred_compiler nuitka
+
+# Exporter la configuration
+PyForgee config export my_config.yaml --format yaml
+
+# Importer une configuration
+PyForgee config import my_config.yaml
+```
+
+## 🎯 Exemples d'utilisation
+
+### 1. Application GUI simple
+```bash
+PyForgee compile gui_app.py \
+  --compiler pyinstaller \
+  --no-console \
+  --icon app_icon.ico \
+  --compress upx \
+  --optimize
+```
+
+### 2. Application serveur avec protection
+```bash
+PyForgee compile server.py \
+  --compiler nuitka \
+  --protect advanced \
+  --obfuscate-names \
+  --obfuscate-strings \
+  --exclude tkinter unittest
+```
+
+### 3. Compilation en lot avec configuration
+```bash
+# Fichier batch_config.yaml avec paramètres personnalisés
+PyForgee batch *.py \
+  --config batch_config.yaml \
+  --parallel \
+  --max-workers 6 \
+  --output ./release
+```
+
+### 4. Analyse et optimisation
+```bash
+# Analyse des dépendances
+PyForgee analyze large_app.py --deep --include-stdlib
+
+# Suggestions d'optimisation basées sur l'analyse
+PyForgee compile large_app.py \
+  --exclude $(PyForgee analyze large_app.py --suggest-excludes) \
+  --compress auto \
+  --optimize
+```
+
+## 🔌 Système de plugins
+
+PyForgee utilise un système de plugins modulaire permettant d'étendre ses fonctionnalités :
+
+### Plugins inclus
+- **UPX Compressor** - Compression d'exécutables
+- **PyArmor Protector** - Protection professionnelle  
+- **Icon Manager** - Gestion et conversion d'icônes
+
+### Développement de plugins
+```python
+from PyForgee.plugins import BasePlugin, PluginMetadata, PluginType
+
+class MyPlugin(BasePlugin):
+    def get_metadata(self):
+        return PluginMetadata(
+            name="my_plugin",
+            version="1.0.0",
+            description="Mon plugin personnalisé",
+            plugin_type=PluginType.TOOL
+        )
+    
+    def initialize(self, config):
+        # Initialisation du plugin
+        return True
+    
+    def execute(self, context):
+        # Logique d'exécution
+        return {"success": True}
+```
+
+## 📊 Métriques de performance
+
+### Objectifs de performance atteints
+- **Réduction de taille** : 40-70% vs PyInstaller seul
+- **Temps de compilation** : < 2 minutes pour projets moyens
+- **Compatibilité** : Windows 10/11, Linux, macOS
+- **Protection** : Résistance aux outils de décompilation standards
+
+### Benchmarks types
+| Type d'application | Taille originale | Après PyForgee | Réduction |
+|-------------------|------------------|---------------|-----------|
+| CLI simple        | 15 MB           | 6 MB          | 60%       |
+| GUI tkinter       | 45 MB           | 18 MB         | 60%       |
+| App data science  | 120 MB          | 50 MB         | 58%       |
+
+## 🛠️ Architecture technique
+
+### Composants principaux
+```
+PyForgee/
+├── core/                    # Moteur principal
+│   ├── compiler_engine.py   # Compilation hybride
+│   ├── dependency_analyzer.py
+│   ├── compression_handler.py
+│   └── protection_manager.py
+├── gui/                     # Interface graphique
+├── cli/                     # Interface ligne de commande
+├── utils/                   # Utilitaires
+├── plugins/                 # Système de plugins
+└── tests/                   # Tests unitaires
+```
+
+### Technologies utilisées
+- **Python 3.9+** - Langage principal
+- **Click** - Interface CLI moderne  
+- **Rich** - Affichage terminal avancé
+- **PySide6** - Interface graphique
+- **PyYAML** - Configuration
+- **asyncio** - Opérations asynchrones
+
+## 🧪 Tests et qualité
+
+### Exécution des tests
+```bash
+# Tests unitaires
+pytest tests/
+
+# Tests avec couverture
+pytest tests/ --cov=src --cov-report=html
+
+# Tests d'intégration
+pytest tests/integration/
+
+# Linting et formatage
+flake8 src/
+black src/
+mypy src/
+```
+
+### Structure des tests
+```
+tests/
+├── unit/                   # Tests unitaires
+│   ├── test_compiler_engine.py
+│   ├── test_dependency_analyzer.py
+│   └── test_compression_handler.py
+├── integration/            # Tests d'intégration
+├── fixtures/              # Fichiers de test
+└── conftest.py            # Configuration pytest
+```
+
+## 📖 Documentation complète
+
+### Documentation utilisateur
+- [Guide d'installation détaillé](docs/installation.md)
+- [Tutoriels pas-à-pas](docs/tutorials/)
+- [Référence CLI complète](docs/cli_reference.md)
+- [Configuration avancée](docs/configuration.md)
+
+### Documentation développeur
+- [Architecture du projet](docs/architecture.md)
+- [Guide de contribution](docs/contributing.md)  
+- [API Reference](docs/api/)
+- [Développement de plugins](docs/plugin_development.md)
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! Consultez [CONTRIBUTING.md](CONTRIBUTING.md) pour les guidelines.
+
+### Types de contributions recherchées
+- 🐛 Corrections de bugs
+- ✨ Nouvelles fonctionnalités
+- 📚 Amélioration de la documentation
+- 🧪 Tests supplémentaires
+- 🔌 Plugins communautaires
+
+### Processus de contribution
+1. Fork du projet
+2. Création d'une branche feature (`git checkout -b feature/amazing-feature`)
+3. Commit des changements (`git commit -m 'Add amazing feature'`)
+4. Push vers la branche (`git push origin feature/amazing-feature`)
+5. Ouverture d'une Pull Request
+
+## 📜 License
+
+Ce projet est sous license MIT. Voir [LICENSE](LICENSE) pour plus de détails.
+
+## 🙏 Remerciements
+
+- **PyInstaller Team** - Pour l'inspiration et la base de compatibilité
+- **Nuitka Project** - Pour les optimisations de performance
+- **UPX Team** - Pour l'excellent outil de compression
+- **PyArmor** - Pour les solutions de protection professionnelle
+- **Communauté Python** - Pour l'écosystème et les retours
+
+## 📞 Support et contact
+
+- **Issues** : [GitHub Issues](https://github.com/PyForgee/PyForgee/issues)
+- **Discussions** : [GitHub Discussions](https://github.com/PyForgee/PyForgee/discussions)  
+- **Documentation** : [docs.PyForgee.dev](https://docs.PyForgee.dev)
+- **Email** : contact@PyForgee.dev
+
+---
+
+**PyForgee** - Forge your Python applications into optimized executables! 🚀

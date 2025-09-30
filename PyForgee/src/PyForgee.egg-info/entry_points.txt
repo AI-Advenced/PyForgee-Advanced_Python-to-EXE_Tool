@@ -1,0 +1,3 @@
+[console_scripts]
+PyForgee = cli.main_cli:main
+PyForgee-gui = gui.main_window:main
