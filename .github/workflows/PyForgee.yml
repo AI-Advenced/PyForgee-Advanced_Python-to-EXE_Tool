@@ -1,70 +1,163 @@
-# This workflow will upload a Python Package to PyPI when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+# Configuration PyForgee par défaut
+# Ce fichier peut être copié et personnalisé selon vos besoins
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# Compilateurs
+preferred_compiler: auto  # auto, pyinstaller, nuitka, cx_freeze
+pyinstaller_path: null    # Chemin spécifique vers PyInstaller (auto-détecté si null)
+nuitka_path: null        # Chemin spécifique vers Nuitka (auto-détecté si null)
 
-name: Upload Python Package
+# Compression
+default_compression: auto  # auto, upx, lzma, brotli, custom, none
+compression_level: 9       # Niveau de compression (1-9)
+upx_path: null            # Chemin spécifique vers UPX (auto-détecté si null)
 
-on:
-  release:
-    types: [published]
+# Protection
+default_protection_level: intermediate  # none, basic, intermediate, advanced, maximum
+pyarmor_path: null                     # Chemin spécifique vers PyArmor (auto-détecté si null)
 
-permissions:
-  contents: read
+# Dossiers
+output_directory: "./dist"      # Dossier de sortie par défaut
+temp_directory: null           # Dossier temporaire (système si null)
+cache_directory: null          # Dossier de cache (auto si null)
 
-jobs:
-  release-build:
-    runs-on: ubuntu-latest
+# Options générales
+backup_original: true          # Sauvegarder les fichiers originaux
+cleanup_temp: true            # Nettoyer les fichiers temporaires
+parallel_builds: true         # Utiliser la compilation parallèle
+max_workers: 4               # Nombre maximum de workers parallèles
 
-    steps:
-      - uses: actions/checkout@v4
+# Logging
+log_level: INFO              # DEBUG, INFO, WARNING, ERROR, CRITICAL
+log_file: null               # Fichier de log (console si null)
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+# Interface
+remember_settings: true      # Mémoriser les paramètres dans l'interface GUI
+theme: default              # Thème de l'interface (default, dark, light)
 
-      - name: Build release distributions
-        run: |
-          # NOTE: put your own distribution build steps here.
-          python -m pip install build
-          python -m build
+# Exclusions par défaut (modules généralement inutiles en production)
+default_excludes:
+  # Modules de développement
+  - tkinter
+  - turtle
+  - turtledemo
+  - unittest
+  - doctest
+  - pdb
+  - pydoc
+  - test
+  - tests
+  
+  # Modules réseau optionnels
+  - ftplib
+  - imaplib
+  - poplib
+  - smtplib
+  - telnetlib
+  - socketserver
+  - wsgiref
+  - xmlrpc
+  
+  # Modules système optionnels
+  - sqlite3
+  - dbm
+  - shelve
+  - distutils
+  - lib2to3
+  - ensurepip
+  
+  # Modules de données optionnels
+  - email
+  - xml
+  - http
 
-      - name: Upload distributions
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
+# Paramètres avancés
+advanced:
+  # Options de compilation
+  compilation:
+    timeout: 600                    # Timeout en secondes (10 minutes)
+    retry_on_failure: true          # Réessayer en cas d'échec
+    fallback_compiler: pyinstaller  # Compilateur de secours
+    
+  # Options de compression
+  compression:
+    skip_large_files: false         # Ignorer les fichiers > 100MB
+    preserve_executable_flags: true # Préserver les permissions exécutables
+    
+  # Options de protection
+  protection:
+    encryption_key_length: 32       # Longueur de clé de chiffrement
+    obfuscation_passes: 3          # Nombre de passes d'obfuscation
+    
+  # Gestion des dépendances
+  dependencies:
+    auto_detect_hidden: true        # Détection automatique des imports cachés
+    include_dev_dependencies: false # Inclure les dépendances de développement
+    
+  # Optimisations
+  optimization:
+    strip_debug_info: true          # Supprimer les infos de debug
+    optimize_imports: true          # Optimiser les imports
+    remove_docstrings: false       # Supprimer les docstrings
+    
+  # Plugins
+  plugins:
+    auto_load: true                 # Chargement automatique des plugins
+    plugin_directories:             # Dossiers de plugins supplémentaires
+      - "~/.PyForgee/plugins"
+      - "./plugins"
 
-  pypi-publish:
-    runs-on: ubuntu-latest
-    needs:
-      - release-build
-    permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
-      id-token: write
+# Profils prédéfinis
+profiles:
+  # Profil pour applications de bureau
+  desktop:
+    preferred_compiler: nuitka
+    default_compression: upx
+    default_protection_level: intermediate
+    console: false
+    onefile: true
+    
+  # Profil pour outils CLI
+  cli:
+    preferred_compiler: pyinstaller
+    default_compression: auto
+    default_protection_level: basic
+    console: true
+    onefile: true
+    
+  # Profil pour distribution commerciale
+  commercial:
+    preferred_compiler: nuitka
+    default_compression: upx
+    default_protection_level: maximum
+    console: false
+    onefile: true
+    backup_original: true
+    
+  # Profil pour développement/test
+  development:
+    preferred_compiler: auto
+    default_compression: none
+    default_protection_level: none
+    console: true
+    onefile: false
+    cleanup_temp: false
 
-    # Dedicated environments with protections for publishing are strongly recommended.
-    # For more information, see: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules
-    environment:
-      name: pypi
-      # OPTIONAL: uncomment and update to include your PyPI project URL in the deployment status:
-      # url: https://pypi.org/p/YOURPROJECT
-      #
-      # ALTERNATIVE: if your GitHub Release name is the PyPI project version string
-      # ALTERNATIVE: exactly, uncomment the following line instead:
-      # url: https://pypi.org/project/YOURPROJECT/${{ github.event.release.name }}
+# Configuration par plateforme
+platform_specific:
+  Windows:
+    default_icon: null              # Icône par défaut pour Windows
+    enable_upx: true               # UPX généralement disponible sur Windows
+    
+  Linux:
+    enable_upx: true               # UPX disponible via package managers
+    preferred_executable_format: elf
+    
+  Darwin:  # macOS
+    enable_upx: false              # UPX peut causer des problèmes sur macOS
+    code_signing: false            # Signature de code (nécessite certificat)
 
-    steps:
-      - name: Retrieve release distributions
-        uses: actions/download-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
-      - name: Publish release distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: dist/
+# Métriques et monitoring
+metrics:
+  collect_usage_stats: false       # Collecter des statistiques d'usage anonymes
+  performance_monitoring: true     # Monitoring des performances
+  error_reporting: true           # Rapport d'erreurs automatique
